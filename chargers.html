@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chargers & Cables — Royal Sphire</title>
+  <meta name="description" content="Browse our premium selection of fast chargers, wireless pads, and durable cables at Royal Sphire.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- AOS Animate on Scroll -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* Specific styling for 2x3 grid on desktop */
+    .category-products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+    @media (max-width: 1024px) {
+      .category-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 768px) {
+      .category-products-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/logo.png">
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loader" class="loader-screen">
+    <div class="loader-content">
+      <div class="loader-ring-container">
+        <div class="loader-ring"></div>
+        <img src="images/logo.png" alt="Royal Sphire Logo" class="loader-logo">
+      </div>
+      <h2 class="loader-brand">ROYAL <span>SPHIRE</span></h2>
+      <p class="loader-tagline">Premium Chargers & Cables</p>
+      <div class="loader-progress-bar">
+        <div class="loader-progress-fill"></div>
+      </div>
+      <span id="loader-percent" class="loader-percent">0%</span>
+    </div>
+  </div>
+
+  <!-- 3D ROOM BACKGROUND -->
+  <div id="scene-3d" class="scene-3d"></div>
+  <div class="room-overlay"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="navbar">
+    <a href="index.html" class="logo" id="logo-click-area">
+      <img src="images/logo.png" alt="Royal Sphire" class="logo-img">
+      <span class="logo-text">ROYAL <span>SPHIRE</span></span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li class="nav-dropdown">
+        <button class="nav-dropdown-trigger">
+          Shop
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="index.html#products" class="dropdown-item">
+            <span class="dropdown-item-icon"><i class="fas fa-fire"></i></span>
+            Featured Products
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="cases.html" class="dropdown-item">
+            <span class="dropdown-item-icon"><i class="fas fa-mobile-alt"></i></span>
+            Phone Cases
+          </a>
+          <a href="chargers.html" class="dropdown-item">
+            <span class="dropdown-item-icon"><i class="fas fa-bolt"></i></span>
+            Chargers & Cables
+          </a>
+          <a href="earbuds.html" class="dropdown-item">
+            <span class="dropdown-item-icon"><i class="fas fa-headphones-alt"></i></span>
+            Earbuds & Audio
+          </a>
+          <a href="powerbanks.html" class="dropdown-item">
+            <span class="dropdown-item-icon"><i class="fas fa-battery-full"></i></span>
+            Power Banks
+          </a>
+          <a href="smartwatches.html" class="dropdown-item">
+            <span class="dropdown-item-icon"><i class="fas fa-clock"></i></span>
+            Smart Watches
+          </a>
+          <a href="protectors.html" class="dropdown-item">
+            <span class="dropdown-item-icon"><i class="fas fa-shield-alt"></i></span>
+            Screen Protectors
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="index.html#deals" class="dropdown-item">
+            <span class="dropdown-item-icon"><i class="fas fa-tags"></i></span>
+            Deals & Offers
+          </a>
+        </div>
+      </li>
+      <li><a href="index.html#categories" class="nav-link">Categories</a></li>
+      <li><a href="index.html#why-us" class="nav-link">About</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="index.html#products" class="cta-btn">Shop Now</a>
+    </div>
+
+    <!-- Hamburger (Mobile) -->
+    <button id="hamburger-btn" class="hamburger" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-content">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="index.html#products" class="mobile-link">Shop</a>
+      <a href="cases.html" class="mobile-link">Phone Cases</a>
+      <a href="chargers.html" class="mobile-link">Chargers & Cables</a>
+      <a href="earbuds.html" class="mobile-link">Earbuds & Audio</a>
+      <a href="powerbanks.html" class="mobile-link">Power Banks</a>
+      <a href="smartwatches.html" class="mobile-link">Smart Watches</a>
+      <a href="protectors.html" class="mobile-link">Screen Protectors</a>
+      <a href="index.html#why-us" class="mobile-link">About Us</a>
+      <a href="index.html#deals" class="mobile-link">Deals</a>
+      <a href="index.html#contact" class="mobile-link">Contact</a>
+      <a href="index.html#products" class="mobile-cta-btn">Shop Now</a>
+    </div>
+  </div>
+
+  <!-- CATEGORY PRODUCTS SECTION -->
+  <section class="section" style="padding-top: 150px; min-height: 80vh;">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-badge">✦ Power ✦</span>
+        <h2 class="section-title">Chargers & <span class="text-gradient">Cables</span></h2>
+        <p class="section-desc">GaN fast charging wall blocks, high-durability braided cables, and premium wireless chargers. Dynamic management via Admin Panel.</p>
+      </div>
+      
+      <!-- 2x3 Grid for Category Products -->
+      <div id="products-grid" class="category-products-grid" data-category-filter="Chargers">
+        <!-- Renders dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-about">
+          <div class="footer-logo">
+            <img src="images/logo.png" alt="Royal Sphire">
+            <span>ROYAL <em>SPHIRE</em></span>
+          </div>
+          <p class="footer-desc">Your one-stop destination for premium mobile accessories. We curate the finest products from around the globe to enhance your mobile experience.</p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/in/ayaz-mehmood-586869377?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener" class="social-icon linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.facebook.com/share/1GiDCTgMfx/" target="_blank" rel="noopener" class="social-icon facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://x.com/royalsphire" target="_blank" rel="noopener" class="social-icon twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/royalsphire05?igsh=MWFraHY1ejF3aDA5Zg==" target="_blank" rel="noopener" class="social-icon instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/923495979062" target="_blank" rel="noopener" class="social-icon whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="mailto:royalsphire@gmail.com" class="social-icon gmail" aria-label="Gmail"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#products">Shop</a></li>
+            <li><a href="index.html#categories">Categories</a></li>
+            <li><a href="index.html#deals">Deals</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Categories</h3>
+          <ul class="footer-links">
+            <li><a href="cases.html">Phone Cases</a></li>
+            <li><a href="chargers.html">Chargers & Cables</a></li>
+            <li><a href="earbuds.html">Earbuds & Audio</a></li>
+            <li><a href="powerbanks.html">Power Banks</a></li>
+            <li><a href="smartwatches.html">Smart Watches</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Support</h3>
+          <ul class="footer-links">
+            <li><a href="index.html#contact">Contact Us</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Royal Sphire. All rights reserved. Crafted with <span style="color: var(--secondary)">♥</span> for premium experiences.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ADMIN PANEL (Hidden Modal) -->
+  <div id="admin-modal" class="admin-modal">
+    <div id="admin-overlay" class="admin-overlay"></div>
+    <div class="admin-panel">
+      <div class="admin-header">
+        <h2><span class="text-gradient">🔐 Admin Panel</span></h2>
+        <button id="close-admin" class="admin-close" aria-label="Close">&times;</button>
+      </div>
+
+      <!-- Password Gate -->
+      <div id="admin-password-gate" class="admin-password-gate">
+        <div class="admin-lock-icon"><i class="fas fa-lock" style="font-size:3rem; color: var(--primary);"></i></div>
+        <h3>Admin Access</h3>
+        <p>Enter the admin password to manage products and affiliate links.</p>
+        <input type="password" id="admin-password-input" class="admin-password-input" placeholder="Enter password...">
+        <button id="admin-password-submit" class="admin-password-submit btn-primary">Unlock</button>
+        <p id="admin-password-error" class="admin-password-error"></p>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="admin-dashboard" class="admin-dashboard">
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-tab="tab-add"><i class="fas fa-plus-circle"></i>&nbsp; Add Product</button>
+          <button class="admin-tab" data-tab="tab-manage"><i class="fas fa-list"></i>&nbsp; Manage Products</button>
+          <button class="admin-tab" data-tab="tab-settings"><i class="fas fa-cog"></i>&nbsp; Import / Export</button>
+        </div>
+
+        <!-- Tab: Add Product -->
+        <div id="tab-add" class="admin-tab-content active">
+          <form id="add-product-form" class="product-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Product Name *</label>
+                <input type="text" id="product-name" class="admin-input" placeholder="e.g. Premium iPhone Case" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Price (USD) *</label>
+                <input type="number" id="product-price" class="admin-input" placeholder="29.99" step="0.01" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description</label>
+              <textarea id="product-description" class="admin-textarea" placeholder="Brief product description..." rows="3"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Image URL</label>
+                <input type="url" id="product-image-url" class="admin-input" placeholder="https://example.com/image.jpg">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <select id="product-category" class="admin-select">
+                  <option value="Phone Cases">Phone Cases</option>
+                  <option value="Chargers" selected>Chargers & Cables</option>
+                  <option value="Earbuds">Earbuds & Audio</option>
+                  <option value="Power Banks">Power Banks</option>
+                  <option value="Smart Watches">Smart Watches</option>
+                  <option value="Screen Protectors">Screen Protectors</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <h4 style="color: var(--secondary); margin: 1rem 0 0.5rem; font-family: var(--font-heading);">
+              <i class="fas fa-link"></i> Affiliate Links (Optional)
+            </h4>
+            <div class="form-group">
+              <label class="form-label"><i class="fab fa-amazon" style="color: #FF9900"></i> Amazon Link</label>
+              <input type="url" id="amazon-link" class="admin-input" placeholder="https://amazon.com/dp/...">
+            </div>
+            <div class="form-group">
+              <label class="form-label"><i class="fas fa-shopping-bag" style="color: #FF6A00"></i> Alibaba Link</label>
+              <input type="url" id="alibaba-link" class="admin-input" placeholder="https://alibaba.com/product/...">
+            </div>
+            <div class="form-group">
+              <label class="form-label"><i class="fas fa-shopping-cart" style="color: #E82502"></i> AliExpress Link</label>
+              <input type="url" id="aliexpress-link" class="admin-input" placeholder="https://aliexpress.com/item/...">
+            </div>
+            <button type="submit" class="admin-btn btn-primary" style="width: 100%; margin-top: 1rem;">
+              <i class="fas fa-plus"></i>&nbsp; Add Product
+            </button>
+          </form>
+        </div>
+
+        <!-- Tab: Manage Products -->
+        <div id="tab-manage" class="admin-tab-content">
+          <div id="admin-products-list" class="admin-products-list"></div>
+        </div>
+
+        <!-- Tab: Import/Export -->
+        <div id="tab-settings" class="admin-tab-content">
+          <div class="admin-settings-content">
+            <h3 style="font-family: var(--font-heading); margin-bottom: 1rem;">Backup & Restore</h3>
+            <div class="admin-export-import">
+              <button id="export-btn" class="admin-btn secondary"><i class="fas fa-download"></i>&nbsp; Export Products</button>
+              <button id="import-btn" class="admin-btn secondary"><i class="fas fa-upload"></i>&nbsp; Import Products</button>
+              <input type="file" id="import-file" accept=".json" style="display: none;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/3d-room.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
