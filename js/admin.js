@@ -10,7 +10,9 @@
 
   /* ---------- Constants ---------- */
 
-  var ADMIN_PASSWORD = 'royal123';
+  var getAdminPassword = function () {
+    return localStorage.getItem('royalSphire_admin_password') || 'royal123';
+  };
   var STORAGE_KEY    = 'royalSphire_products';
 
   /* =================================================================
@@ -706,7 +708,7 @@
 
       if (submitBtn) {
         submitBtn.addEventListener('click', function () {
-          if (input && input.value === ADMIN_PASSWORD) {
+          if (input && input.value === getAdminPassword()) {
             self.isAuthenticated = true;
             self.showDashboard();
             if (errorEl) errorEl.textContent = '';
@@ -1008,6 +1010,42 @@
 
           // Reset so the same file can be re-imported
           importFile.value = '';
+        });
+      }
+
+      // Change Password form handler
+      var changePwdForm = document.getElementById('change-password-form');
+      var newPwdInput  = document.getElementById('new-admin-password');
+      var confPwdInput = document.getElementById('confirm-admin-password');
+      var pwdMsgEl     = document.getElementById('change-password-message');
+
+      if (changePwdForm) {
+        changePwdForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (!newPwdInput || !confPwdInput) return;
+
+          var newPwd = newPwdInput.value;
+          var confPwd = confPwdInput.value;
+
+          if (newPwd !== confPwd) {
+            if (pwdMsgEl) {
+              pwdMsgEl.textContent = 'Passwords do not match!';
+              pwdMsgEl.style.color = '#EF4444';
+            }
+            return;
+          }
+
+          localStorage.setItem('royalSphire_admin_password', newPwd);
+          
+          if (pwdMsgEl) {
+            pwdMsgEl.textContent = 'Password updated successfully!';
+            pwdMsgEl.style.color = '#10B981';
+          }
+
+          newPwdInput.value = '';
+          confPwdInput.value = '';
+
+          showToast('Admin password updated!', 'success');
         });
       }
     }

@@ -1,17 +1,12 @@
 /* ===================================================================
-   3D Room Background Engine — Royal Sphire
-   Creates floating mobile-accessory emojis that drift in 3D space.
-   Responds to mouse movement (desktop) and device orientation (mobile).
+   3D Particle Constellation Background — Royal Sphire
+   Interactive, canvas-based gold particle network that reacts to mouse.
+   Highly optimized for performance.
    =================================================================== */
 
 (function () {
   'use strict';
 
-  /* ---------- Utility helpers ---------- */
-
-  /**
-   * Returns true when the user prefers reduced motion.
-   */
   function prefersReducedMotion() {
     try {
       return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -20,109 +15,139 @@
     }
   }
 
-  /**
-   * Simple throttle — limits `fn` to once every `wait` ms.
-   */
-  function throttle(fn, wait) {
-    var lastTime = 0;
-    return function () {
-      var now = Date.now();
-      if (now - lastTime >= wait) {
-        lastTime = now;
-        fn.apply(this, arguments);
-      }
-    };
-  }
-
-  /* ---------- Floating items data ---------- */
-
-  var ITEMS = [
-    { imgUrl: 'images/floating-case-white.png', size: 120, x: 10, y: 20, delay: 0 },
-    { imgUrl: 'images/floating-cable-white.png', size: 90, x: 80, y: 15, delay: 2 },
-    { imgUrl: 'images/floating-earbud-white.png', size: 100, x: 25, y: 70, delay: 4 },
-    { imgUrl: 'images/floating-case-white.png', size: 85, x: 70, y: 60, delay: 1 },
-    { imgUrl: 'images/floating-cable-white.png', size: 110, x: 50, y: 35, delay: 3 },
-    { imgUrl: 'images/floating-earbud-white.png', size: 95, x: 90, y: 80, delay: 5 },
-    { imgUrl: 'images/floating-case-white.png', size: 100, x: 15, y: 50, delay: 2.5 },
-    { imgUrl: 'images/floating-earbud-white.png', size: 110, x: 60, y: 85, delay: 1.5 }
-  ];
-
-  /* ---------- Core init ---------- */
-
-  var rafId = null; // stored so we could cancel if needed
-
   function init3DRoom() {
     var scene = document.getElementById('scene-3d');
     if (!scene) return;
 
-    /* --- Spawn floating items --- */
-    ITEMS.forEach(function (item, i) {
-      var el = document.createElement('div');
-      el.className = 'floating-item';
-      el.setAttribute('aria-hidden', 'true'); // decorative only
-      el.style.cssText =
-        'left:' + item.x + '%;' +
-        'top:' + item.y + '%;' +
-        'width:' + item.size + 'px;' +
-        'height:' + item.size + 'px;' +
-        'animation:float-' + (i + 1) + ' ' + (18 + i * 2) + 's ease-in-out infinite;' +
-        'animation-delay:' + item.delay + 's;' +
-        'opacity:0.65;' +
-        'position:absolute;' +
-        'pointer-events:none;' +
-        'will-change:transform;' +
-        'z-index:0;';
+    // Create Canvas
+    var canvas = document.createElement('canvas');
+    canvas.style.position = 'absolute';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '0';
+    scene.appendChild(canvas);
 
-      var img = document.createElement('img');
-      img.src = item.imgUrl;
-      img.alt = '';
-      img.style.cssText = 'width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply; filter: drop-shadow(0 4px 15px rgba(0, 168, 255, 0.15));';
-      el.appendChild(img);
-      scene.appendChild(el);
-    });
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+    var maxParticles = 75;
+    var connectionDist = 125;
+    
+    var mouse = { x: null, y: null, radius: 150 };
 
-    /* --- Parallax state --- */
-    var mouseX  = 0;
-    var mouseY  = 0;
-    var currentX = 0;
-    var currentY = 0;
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-    /* --- Desktop: mouse-driven parallax --- */
+    // Track mouse
     document.addEventListener('mousemove', function (e) {
-      mouseX = (e.clientX / window.innerWidth  - 0.5) * 30;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 30;
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     });
 
-    /* --- Mobile: device-orientation parallax (throttled) --- */
-    if (window.DeviceOrientationEvent) {
-      var handleOrientation = throttle(function (e) {
-        if (e.gamma !== null && e.beta !== null) {
-          mouseX = e.gamma * 0.5;          // left-right tilt
-          mouseY = (e.beta - 45) * 0.5;    // front-back tilt (centered around 45°)
+    document.addEventListener('mouseleave', function () {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    // Particle class
+    function Particle() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.vx = (Math.random() - 0.5) * 0.8;
+      this.vy = (Math.random() - 0.5) * 0.8;
+      this.radius = Math.random() * 2.5 + 1.5;
+    }
+
+    Particle.prototype.update = function () {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      // Bounce off walls
+      if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+      if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+
+      // Gentle mouse interaction (pull particles slightly)
+      if (mouse.x !== null && mouse.y !== null) {
+        var dx = mouse.x - this.x;
+        var dy = mouse.y - this.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < mouse.radius) {
+          var force = (mouse.radius - dist) / mouse.radius;
+          this.x -= dx * force * 0.03;
+          this.y -= dy * force * 0.03;
         }
-      }, 50); // ~20 fps on mobile — keeps things smooth without burning battery
+      }
+    };
 
-      window.addEventListener('deviceorientation', handleOrientation);
+    Particle.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(229, 169, 59, 0.55)'; // Gold particles
+      ctx.fill();
+    };
+
+    // Initialize particles
+    for (var i = 0; i < maxParticles; i++) {
+      particles.push(new Particle());
     }
 
-    /* --- Smooth parallax render loop --- */
-    var easing = 0.05;
+    var rafId = null;
 
-    function animateParallax() {
-      currentX += (mouseX - currentX) * easing;
-      currentY += (mouseY - currentY) * easing;
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      scene.style.transform =
-        'translate3d(' + currentX + 'px, ' + currentY + 'px, 0) ' +
-        'rotateX(' + (currentY * 0.1) + 'deg) ' +
-        'rotateY(' + (currentX * 0.1) + 'deg)';
+      // Draw connections
+      for (var a = 0; a < particles.length; a++) {
+        var pA = particles[a];
+        pA.update();
+        pA.draw();
 
-      rafId = requestAnimationFrame(animateParallax);
+        for (var b = a + 1; b < particles.length; b++) {
+          var pB = particles[b];
+          var dx = pA.x - pB.x;
+          var dy = pA.y - pB.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < connectionDist) {
+            var alpha = (1 - dist / connectionDist) * 0.18;
+            ctx.beginPath();
+            ctx.moveTo(pA.x, pA.y);
+            ctx.lineTo(pB.x, pB.y);
+            ctx.strokeStyle = 'rgba(229, 169, 59, ' + alpha + ')'; // Gold connecting lines
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+
+        // Draw connections to mouse
+        if (mouse.x !== null && mouse.y !== null) {
+          var dxMouse = pA.x - mouse.x;
+          var dyMouse = pA.y - mouse.y;
+          var distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+          if (distMouse < mouse.radius) {
+            var alphaMouse = (1 - distMouse / mouse.radius) * 0.25;
+            ctx.beginPath();
+            ctx.moveTo(pA.x, pA.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = 'rgba(22, 160, 133, ' + alphaMouse + ')'; // Mint connection to mouse!
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      rafId = requestAnimationFrame(animate);
     }
 
-    animateParallax();
+    animate();
 
-    /* --- Pause animation when tab is hidden (performance) --- */
+    // Pause animation when tab hidden
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) {
         if (rafId) {
@@ -130,25 +155,18 @@
           rafId = null;
         }
       } else {
-        if (!rafId) {
-          animateParallax();
-        }
+        if (!rafId) animate();
       }
     });
   }
 
-  /* ---------- Bootstrap ---------- */
-
   document.addEventListener('DOMContentLoaded', function () {
-    // Respect the user's motion preferences
     if (prefersReducedMotion()) return;
-
     try {
       init3DRoom();
     } catch (err) {
-      // Fail silently — the 3D background is purely decorative
       if (typeof console !== 'undefined') {
-        console.warn('[3D-Room] Initialisation error:', err);
+        console.warn('[3D-Room] Init error:', err);
       }
     }
   });

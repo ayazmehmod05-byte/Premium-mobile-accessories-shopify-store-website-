@@ -170,7 +170,10 @@
       </div>
       <div class="hero-showcase" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
         <div class="hero-glow"></div>
-        <img src="images/hero-phone.png" alt="Premium Mobile Accessories" class="hero-product-img">
+        <video class="hero-product-img" autoplay loop muted playsinline style="border-radius: var(--radius-lg); border: 2px solid var(--border-glass); box-shadow: var(--shadow-glow); background: #000; overflow: hidden; object-fit: cover;">
+          <source src="https://v1.pinimg.com/videos/iht/expMp4/7c/c6/2d/7cc62d80a58ee8d2b3e062c7ad015829_540w.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
   </section>
@@ -770,14 +773,35 @@
               </button>
               <input type="file" id="import-file" accept=".json" style="display: none;">
             </div>
-            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0,168,255,0.05); border-radius: var(--radius-md); border: 1px solid rgba(0,168,255,0.15);">
+
+            <hr style="border: 0; border-top: 1px solid var(--border-glass); margin: 2rem 0;">
+
+            <h3 style="font-family: var(--font-heading); margin-bottom: 1rem;">Admin Security</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Change your admin access password. This password is saved securely in your browser settings.</p>
+            
+            <form id="change-password-form" class="product-form" style="max-width: 400px; padding: 0;">
+              <div class="form-group" style="margin-bottom: 1rem;">
+                <label class="form-label">New Password *</label>
+                <input type="password" id="new-admin-password" class="admin-input" placeholder="Enter new password..." required style="width: 100%; padding: 0.8rem; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); color: var(--text-primary); outline: none;">
+              </div>
+              <div class="form-group" style="margin-bottom: 1rem;">
+                <label class="form-label">Confirm New Password *</label>
+                <input type="password" id="confirm-admin-password" class="admin-input" placeholder="Confirm new password..." required style="width: 100%; padding: 0.8rem; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); color: var(--text-primary); outline: none;">
+              </div>
+              <button type="submit" class="admin-btn btn-primary" style="margin-top: 0.5rem;">
+                <i class="fas fa-key"></i>&nbsp; Update Password
+              </button>
+              <p id="change-password-message" style="margin-top: 1rem; font-size: 0.9rem; font-weight: 600;"></p>
+            </form>
+
+            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(229,169,59,0.05); border-radius: var(--radius-md); border: 1px solid rgba(229,169,59,0.15);">
               <h4 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fas fa-info-circle"></i> How it works</h4>
               <ul style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8; padding-left: 1.5rem;">
                 <li>Products are stored in your browser's localStorage</li>
                 <li>Export regularly to keep a backup of your data</li>
                 <li>Import on a new browser/device to restore products</li>
                 <li>Admin access: Click the logo 5 times or navigate to <code style="color: var(--secondary)">#admin</code></li>
-                <li>Default password: <code style="color: var(--secondary)">royal123</code></li>
+                <li>Default password: <code style="color: var(--secondary)">royal123</code> (or your custom password)</li>
               </ul>
             </div>
           </div>

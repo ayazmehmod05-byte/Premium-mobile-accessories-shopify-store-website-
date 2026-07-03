@@ -451,6 +451,39 @@
   }
 
   /* =================================================================
+     3D Holographic Phone Parallax Effect
+     ================================================================= */
+  function initHoloPhone3D() {
+    var phone = document.getElementById('holo-phone');
+    var container = document.querySelector('.holo-phone-container');
+    if (!phone || !container) return;
+
+    var rect = container.getBoundingClientRect();
+    
+    // Mouse movement inside container tilts the phone
+    container.addEventListener('mousemove', function (e) {
+      var x = e.clientX - rect.left - (rect.width / 2);
+      var y = e.clientY - rect.top - (rect.height / 2);
+      
+      // Calculate rotation angles (max 15 degrees)
+      var rotateY = (x / (rect.width / 2)) * 15;
+      var rotateX = -(y / (rect.height / 2)) * 15;
+      
+      phone.style.transform = 'rotateY(' + rotateY + 'deg) rotateX(' + rotateX + 'deg) scale(1.03)';
+    });
+
+    // Reset when mouse leaves
+    container.addEventListener('mouseleave', function () {
+      phone.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
+    });
+
+    // Handle resize
+    window.addEventListener('resize', function () {
+      rect = container.getBoundingClientRect();
+    });
+  }
+
+  /* =================================================================
      INITIALISE EVERYTHING ON DOMContentLoaded
      ================================================================= */
   document.addEventListener('DOMContentLoaded', function () {
@@ -469,5 +502,6 @@
     try { initContactForm();   } catch (e) { console.warn('[ContactForm]',   e); }
     try { initSmoothScroll();  } catch (e) { console.warn('[SmoothScroll]',  e); }
     try { initDropdowns();     } catch (e) { console.warn('[Dropdowns]',     e); }
+    try { initHoloPhone3D();   } catch (e) { console.warn('[HoloPhone3D]',   e); }
   });
 })();
