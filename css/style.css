@@ -19,34 +19,34 @@
   --secondary-dark: #D97706;
   --secondary-light: #FBBF24;
 
-  /* Accent / Gold Bronze */
-  --accent: #9E6B15;
-  --accent-light: #FAD02C;
+  /* Accent / Neon Cyan for contrast */
+  --accent: #00E5FF;
+  --accent-light: #80F2FF;
 
-  /* Backgrounds */
-  --bg-dark: #7CDCB5;
-  --bg-darker: #6acfa8;
-  --bg-card: rgba(255, 255, 255, 0.4);
-  --bg-glass: rgba(255, 255, 255, 0.2);
-  --bg-glass-light: rgba(255, 255, 255, 0.3);
+  /* Backgrounds (Deep professional navy/black) */
+  --bg-dark: #080C13;
+  --bg-darker: #040609;
+  --bg-card: rgba(16, 24, 38, 0.6);
+  --bg-glass: rgba(255, 255, 255, 0.03);
+  --bg-glass-light: rgba(255, 255, 255, 0.08);
 
-  /* Text */
-  --text-primary: #12221b;
-  --text-secondary: #223f32;
-  --text-muted: #3b6652;
+  /* Text (High contrast for perfect readability) */
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0BAC9;
+  --text-muted: #708299;
 
   /* Borders */
-  --border-glass: rgba(255, 255, 255, 0.5);
-  --border-glow: rgba(22, 160, 133, 0.65);
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(0, 229, 255, 0.4);
 
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, #E5A93B, #9E6B15);
   --gradient-gold: linear-gradient(135deg, #FAD02C, #D97706);
-  --gradient-hero: linear-gradient(135deg, rgba(229,169,59,0.15), rgba(158,107,21,0.08));
+  --gradient-hero: linear-gradient(135deg, rgba(229,169,59,0.1), rgba(0,229,255,0.05));
 
   /* Shadows */
-  --shadow-glow: 0 0 25px rgba(22, 160, 133, 0.35);
-  --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 25px rgba(0, 229, 255, 0.25);
+  --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.4);
 
   /* Typography */
   --font-heading: 'Outfit', sans-serif;
@@ -200,6 +200,32 @@ html {
   margin-top: -0.5rem;
 }
 
+/* ── 4. Ecommerce Background Animation ─────────────────────────── */
+.ecommerce-bg-animation {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(-45deg, var(--bg-dark), var(--bg-darker), #0b1a2a, #050d18);
+  background-size: 400% 400%;
+  animation: gradientBG 20s ease infinite;
+  pointer-events: none;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.ecommerce-bg-animation::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.05), transparent 40%),
+              radial-gradient(circle at bottom left, rgba(229, 169, 59, 0.05), transparent 40%);
+  z-index: 1;
+}
+
 .loader-progress-bar {
   width: 200px;
   height: 3px;
@@ -232,43 +258,7 @@ html {
   letter-spacing: 2px;
 }
 
-/* ── 4. 3D Room Background ───────────────────────────────────── */
-#scene-3d,
-.scene-3d {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  perspective: 1500px;
-  overflow: hidden;
-  pointer-events: none;
-}
 
-.floating-item {
-  position: absolute;
-  will-change: transform;
-  transition: transform 0.1s ease-out;
-  opacity: 0.12;
-  filter: blur(1px);
-}
-
-.floating-item:nth-child(1) { animation: float-1 20s ease-in-out infinite; top: 10%; left: 5%; }
-.floating-item:nth-child(2) { animation: float-2 25s ease-in-out infinite 2s; top: 20%; right: 10%; }
-.floating-item:nth-child(3) { animation: float-3 18s ease-in-out infinite 1s; bottom: 30%; left: 15%; }
-.floating-item:nth-child(4) { animation: float-4 22s ease-in-out infinite 3s; bottom: 15%; right: 20%; }
-.floating-item:nth-child(5) { animation: float-5 28s ease-in-out infinite 0.5s; top: 50%; left: 40%; }
-.floating-item:nth-child(6) { animation: float-6 16s ease-in-out infinite 4s; top: 70%; left: 60%; }
-.floating-item:nth-child(7) { animation: float-7 30s ease-in-out infinite 1.5s; top: 35%; right: 30%; }
-.floating-item:nth-child(8) { animation: float-8 24s ease-in-out infinite 2.5s; bottom: 40%; left: 50%; }
-
-.room-overlay {
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at center, transparent 30%, var(--bg-dark) 80%),
-    linear-gradient(to bottom, var(--bg-dark) 0%, transparent 15%, transparent 85%, var(--bg-dark) 100%);
-  z-index: 0;
-  pointer-events: none;
-}
 
 /* ── 5. Utility Classes ──────────────────────────────────────── */
 .container {
@@ -904,33 +894,16 @@ nav#navbar,
   50% { opacity: 1; transform: scale(1.2); }
 }
 
-/* Card Glare Shine Hover Transition */
-.product-card, .category-card, .testimonial-card, .contact-card {
+/* Card Glare Shine — via box-shadow transition (no pseudo-element conflict) */
+.testimonial-card, .contact-card {
   position: relative;
   overflow: hidden;
 }
 
-.product-card::after, .category-card::after, .testimonial-card::after, .contact-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.35) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: skewX(-25deg);
-  transition: 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 4;
-  pointer-events: none;
-}
-
-.product-card:hover::after, .category-card:hover::after, .testimonial-card:hover::after, .contact-card:hover::after {
-  left: 150%;
+.testimonial-card:hover, .contact-card:hover {
+  box-shadow: 
+    inset 0 0 60px rgba(255, 255, 255, 0.05),
+    0 20px 50px rgba(0, 0, 0, 0.08);
 }
 
 .hero-glow {
@@ -958,55 +931,76 @@ nav#navbar,
 }
 
 .product-card {
+  perspective: 1000px;
+  background: transparent;
+  border-radius: var(--radius-lg);
+  position: relative;
+  height: 420px;
+}
+
+.product-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  border-radius: var(--radius-lg);
+}
+
+.product-card:hover .product-card-inner {
+  transform: rotateY(180deg);
+}
+
+.product-card-front,
+.product-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
   background: var(--bg-card);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-glass);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
 }
 
-.product-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--gradient-primary);
-  z-index: 2;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+.product-card-front {
+  display: flex;
+  flex-direction: column;
 }
 
-.product-card:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--shadow-glow), var(--shadow-card);
-  border-color: var(--border-glow);
+.product-card-back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(16,24,38,0.9), rgba(8,12,19,0.95));
+  border: 1px solid var(--primary-glow);
 }
 
-.product-card:hover::before {
-  opacity: 1;
-}
-
+/* Image container with overlay gradient */
 .product-img-wrapper {
   position: relative;
   overflow: hidden;
   height: 250px;
-  background: var(--bg-glass);
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.05), rgba(229, 169, 59, 0.05));
+  flex-shrink: 0;
 }
 
 .product-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.7s ease;
 }
 
 .product-card:hover .product-img {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .product-badge {
@@ -1015,7 +1009,7 @@ nav#navbar,
   right: 1rem;
   padding: 0.3rem 0.8rem;
   background: var(--primary);
-  color: var(--text-primary);
+  color: #000;
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -2882,6 +2876,237 @@ footer,
   .hero-product-img {
     animation: none !important;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   23. PREMIUM CARD ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Staggered entrance — cards start hidden, slide+fade in */
+.card-hidden {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-revealed {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* Magnetic cursor glow that follows mouse position */
+.product-card::after,
+.category-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(229, 169, 59, 0.08),
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover::after,
+.category-card:hover::after {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   24. PREMIUM SECTION DIVIDERS & POLISH
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Elegant section divider line */
+.section + .section::before {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 2px;
+  background: var(--gradient-primary);
+  margin: 0 auto 3rem;
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+/* Section badge micro-animation */
+.section-badge {
+  animation: badge-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes badge-shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; text-shadow: 0 0 12px var(--primary-glow); }
+}
+
+/* Section title text gradient enhancement */
+.text-gradient {
+  background: linear-gradient(135deg, #E5A93B 0%, #FAD02C 50%, #9E6B15 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Product badge pulse */
+.product-badge {
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 2px 8px rgba(229, 169, 59, 0.3); }
+  50% { box-shadow: 0 2px 16px rgba(229, 169, 59, 0.6); }
+}
+
+/* Stat card counter glow on scroll */
+.stat-card {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stat-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 0 30px rgba(22, 160, 133, 0.1);
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.15) rotateY(180deg);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stat-icon {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Deal card featured pulse border */
+.deal-card.featured {
+  position: relative;
+}
+
+.deal-card.featured::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: var(--gradient-primary);
+  z-index: -1;
+  animation: deal-border-pulse 2s ease-in-out infinite;
+}
+
+@keyframes deal-border-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Category card image parallax zoom */
+.category-card {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+}
+
+.category-card:hover .category-img {
+  transform: scale(1.1);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.category-img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   25. PREMIUM FLOATING LABEL ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Smooth scroll indicator bounce */
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* Hero video container premium styling */
+.hero-product-img {
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden;
+}
+
+/* Affiliate button hover micro-interactions */
+.affiliate-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.affiliate-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+}
+
+.affiliate-btn:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
+/* Product name slide-up on hover */
+.product-info {
+  position: relative;
+  z-index: 2;
+}
+
+.product-card:hover .product-info {
+  transform: translateY(-3px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Testimonial card special hover */
+.testimonial-card {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 0 30px rgba(22, 160, 133, 0.1);
+}
+
+/* Contact card icons spin on hover */
+.contact-card:hover .contact-icon i {
+  animation: icon-wiggle 0.5s ease-in-out;
+}
+
+@keyframes icon-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-12deg); }
+  75% { transform: rotate(12deg); }
+}
+
+/* Footer social icons bounce */
+.social-link {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.social-link:hover {
+  transform: translateY(-4px) scale(1.1) !important;
+}
 
   .hero-glow {
     animation: none !important;

@@ -88,7 +88,9 @@
     Particle.prototype.draw = function () {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(229, 169, 59, 0.55)'; // Gold particles
+      ctx.fillStyle = 'rgba(0, 229, 255, 0.6)'; // Neon Cyan particles
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = '#00E5FF';
       ctx.fill();
     };
 
@@ -115,12 +117,12 @@
           var dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDist) {
-            var alpha = (1 - dist / connectionDist) * 0.18;
+            var alpha = (1 - dist / connectionDist) * 0.25;
             ctx.beginPath();
             ctx.moveTo(pA.x, pA.y);
             ctx.lineTo(pB.x, pB.y);
-            ctx.strokeStyle = 'rgba(229, 169, 59, ' + alpha + ')'; // Gold connecting lines
-            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = 'rgba(0, 229, 255, ' + alpha + ')'; // Neon Cyan connecting lines
+            ctx.lineWidth = 1.2;
             ctx.stroke();
           }
         }
@@ -131,12 +133,12 @@
           var dyMouse = pA.y - mouse.y;
           var distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
           if (distMouse < mouse.radius) {
-            var alphaMouse = (1 - distMouse / mouse.radius) * 0.25;
+            var alphaMouse = (1 - distMouse / mouse.radius) * 0.4;
             ctx.beginPath();
             ctx.moveTo(pA.x, pA.y);
             ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = 'rgba(22, 160, 133, ' + alphaMouse + ')'; // Mint connection to mouse!
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(229, 169, 59, ' + alphaMouse + ')'; // Gold connection to mouse!
+            ctx.lineWidth = 2;
             ctx.stroke();
           }
         }

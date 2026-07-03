@@ -13,7 +13,7 @@
   var getAdminPassword = function () {
     return localStorage.getItem('royalSphire_admin_password') || 'royal123';
   };
-  var STORAGE_KEY    = 'royalSphire_products';
+  var STORAGE_KEY    = 'royalSphire_products_v5';
 
   /* =================================================================
      Product Manager  —  CRUD operations backed by localStorage
@@ -26,6 +26,14 @@
      */
     getProducts: function () {
       try {
+        // Version check: force refresh defaults when product images are updated
+        var DATA_VERSION = 'v2_corrected_images';
+        var currentVersion = localStorage.getItem('royalSphire_data_version');
+        if (currentVersion !== DATA_VERSION) {
+          localStorage.removeItem(STORAGE_KEY);
+          localStorage.setItem('royalSphire_data_version', DATA_VERSION);
+        }
+        
         var stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
           var parsed = JSON.parse(stored);
@@ -42,7 +50,7 @@
             name: "Sleek Matte Carbon Case",
             price: "19.99",
             description: "Ultra-slim carbon fiber texture protective case with matte anti-fingerprint coating.",
-            imageUrl: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=500",
+            imageUrl: "images/products/product_1.jpg",
             category: "Phone Cases",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -53,7 +61,7 @@
             name: "Armor Shockproof Bumper",
             price: "24.99",
             description: "Military grade dual-layer shockproof rugged protector with built-in kickstand.",
-            imageUrl: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=500",
+            imageUrl: "images/products/product_2.jpg",
             category: "Phone Cases",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -64,7 +72,7 @@
             name: "Crystal Clear TPU Case",
             price: "14.99",
             description: "Non-yellowing clear flexible TPU shell showing off your phone's original color.",
-            imageUrl: "https://images.unsplash.com/photo-1605787020600-b9ebd5df1d07?w=500",
+            imageUrl: "images/products/product_3.jpg",
             category: "Phone Cases",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -75,7 +83,7 @@
             name: "Luxury Leather Wallet Case",
             price: "29.99",
             description: "Genuine split leather folio style case with card slots and magnetic closure stand.",
-            imageUrl: "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?w=500",
+            imageUrl: "images/products/product_4.jpg",
             category: "Phone Cases",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -86,7 +94,7 @@
             name: "Minimalist Silicone Guard",
             price: "16.99",
             description: "Soft liquid silicone case with microfibre lining, snug fit, and multiple colors.",
-            imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500",
+            imageUrl: "images/products/product_5.jpg",
             category: "Phone Cases",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -97,7 +105,7 @@
             name: "Neo Hybrid Shield",
             price: "22.99",
             description: "Tactile grid back pattern with accent color metallic camera frame protection.",
-            imageUrl: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500",
+            imageUrl: "images/products/product_6.jpg",
             category: "Phone Cases",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -110,7 +118,7 @@
             name: "65W GaN Fast Wall Charger",
             price: "39.99",
             description: "Ultra-compact Gallium Nitride 3-port fast wall charger with Power Delivery 3.0.",
-            imageUrl: "https://images.unsplash.com/photo-1622445262465-2481c8573226?w=500",
+            imageUrl: "images/products/product_7.jpg",
             category: "Chargers",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -121,7 +129,7 @@
             name: "100W Braided USB-C Cable",
             price: "12.99",
             description: "Heavy duty double braided nylon Type-C to Type-C cable with power display screen.",
-            imageUrl: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=500",
+            imageUrl: "images/products/product_8.jpg",
             category: "Chargers",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -132,7 +140,7 @@
             name: "3-in-1 Wireless Charging Stand",
             price: "49.99",
             description: "Fast wireless charging dock for smartphone, smart watch, and wireless earbud case.",
-            imageUrl: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=500",
+            imageUrl: "images/products/product_9.jpg",
             category: "Chargers",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -143,7 +151,7 @@
             name: "Magnetic Wireless Charger Pad",
             price: "24.99",
             description: "Ultra slim MagSafe compatible wireless charger puck with reinforced USB-C input.",
-            imageUrl: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=500",
+            imageUrl: "images/products/product_10.jpg",
             category: "Chargers",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -154,7 +162,7 @@
             name: "Dual Port 45W Car Charger",
             price: "18.99",
             description: "Full metal mini car power adapter supporting USB-A QC3.0 and USB-C PD fast outputs.",
-            imageUrl: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=500",
+            imageUrl: "images/products/product_11.jpg",
             category: "Chargers",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -165,7 +173,7 @@
             name: "Coiled Fast Spring Cable",
             price: "10.99",
             description: "Flexible coiled spring USB-C charging cord, perfect length design for vehicles.",
-            imageUrl: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=500",
+            imageUrl: "images/products/product_12.jpg",
             category: "Chargers",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -178,7 +186,7 @@
             name: "Elite TWS Pro Earbuds",
             price: "89.99",
             description: "True wireless stereo earbuds with Active Noise Cancelling, transparency mode, and 30h battery.",
-            imageUrl: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500",
+            imageUrl: "images/products/product_13.jpg",
             category: "Earbuds",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -189,7 +197,7 @@
             name: "Studio Wireless Headphone",
             price: "129.99",
             description: "Hi-Res over-ear headphones with deep dynamic bass, soft protein ear pads, and fast charging.",
-            imageUrl: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+            imageUrl: "images/products/product_14.jpg",
             category: "Earbuds",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -200,7 +208,7 @@
             name: "Noise Cancelling Pods",
             price: "59.99",
             description: "Smart environmental noise cancelling wireless pods with sweatproof design and touch controls.",
-            imageUrl: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=500",
+            imageUrl: "images/products/product_15.jpg",
             category: "Earbuds",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -211,7 +219,7 @@
             name: "Sport Loop Hook Buds",
             price: "49.99",
             description: "Secure-fit ear hook wireless sports headphones with IPX7 rating for intense workouts.",
-            imageUrl: "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?w=500",
+            imageUrl: "images/products/product_16.jpg",
             category: "Earbuds",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -222,7 +230,7 @@
             name: "Mini Capsule Speaker",
             price: "34.99",
             description: "Pocket-sized wireless Bluetooth speaker with 360° surround audio and durable outdoor design.",
-            imageUrl: "https://images.unsplash.com/photo-1608156639585-b3a032ef9689?w=500",
+            imageUrl: "images/products/product_17.jpg",
             category: "Earbuds",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -233,7 +241,7 @@
             name: "Crystal Sound In-Ear Buds",
             price: "29.99",
             description: "Ultra-lightweight hybrid drivers wireless in-ear monitors with high-fidelity sound signature.",
-            imageUrl: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500",
+            imageUrl: "images/products/product_18.jpg",
             category: "Earbuds",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -246,7 +254,7 @@
             name: "20000mAh Power Station",
             price: "45.99",
             description: "High capacity portable battery pack with 22.5W Super Fast Charge and digital LED screen.",
-            imageUrl: "https://images.unsplash.com/photo-1609592424109-dd9892f1b17c?w=500",
+            imageUrl: "images/products/product_19.jpg",
             category: "Power Banks",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -257,7 +265,7 @@
             name: "MagSafe Magnetic Power Bank",
             price: "34.99",
             description: "Slim 10000mAh battery pack attaching magnetically to snap-on wireless charging phones.",
-            imageUrl: "https://images.unsplash.com/photo-1629131726617-a0684c30c883?w=500",
+            imageUrl: "images/products/product_20.jpg",
             category: "Power Banks",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -268,7 +276,7 @@
             name: "Solar Rugged Power Bank",
             price: "39.99",
             description: "Outdoor solar panel charging power bank with built-in dual LED flashlight and compass.",
-            imageUrl: "https://images.unsplash.com/photo-1624996379697-f01d168b1a52?w=500",
+            imageUrl: "images/products/product_21.jpg",
             category: "Power Banks",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -279,7 +287,7 @@
             name: "Mini Pocket Power Bank",
             price: "19.99",
             description: "Ultra compact lipstick-sized portable charger plugging directly into your phone connector.",
-            imageUrl: "https://images.unsplash.com/photo-1585338111119-9730ab24a873?w=500",
+            imageUrl: "images/products/product_22.jpg",
             category: "Power Banks",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -290,7 +298,7 @@
             name: "100W PD Laptop Power Bank",
             price: "89.99",
             description: "High output backup power bank capable of full speed charging for notebooks and phones.",
-            imageUrl: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500",
+            imageUrl: "images/products/product_23.jpg",
             category: "Power Banks",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -301,7 +309,7 @@
             name: "Wireless QI Power Bank",
             price: "29.99",
             description: "Dual output USB power bank with a 10W integrated top wireless induction pad charging surface.",
-            imageUrl: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?w=500",
+            imageUrl: "images/products/product_24.jpg",
             category: "Power Banks",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -314,7 +322,7 @@
             name: "Aura Smartwatch Series 7",
             price: "119.99",
             description: "AMOLED high-resolution display smartwatch with comprehensive health and sleep tracking.",
-            imageUrl: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500",
+            imageUrl: "images/products/product_25.jpg",
             category: "Smart Watches",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -325,7 +333,7 @@
             name: "Active Fitness Tracker",
             price: "69.99",
             description: "IP68 waterproof sport fitness tracker with blood oxygen tracking and 14 sport modes.",
-            imageUrl: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500",
+            imageUrl: "images/products/product_26.jpg",
             category: "Smart Watches",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -336,7 +344,7 @@
             name: "Classic Hybrid Smartwatch",
             price: "99.99",
             description: "Classic analog watch dials layout with a smart hidden digital notifications OLED sub-display screen.",
-            imageUrl: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500",
+            imageUrl: "images/products/product_27.jpg",
             category: "Smart Watches",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -347,7 +355,7 @@
             name: "Minimalist Sport Tracker",
             price: "49.99",
             description: "Lightweight, clean silicon sport activity tracker showing step counts, calories, and time.",
-            imageUrl: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
+            imageUrl: "images/products/product_28.jpg",
             category: "Smart Watches",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -358,7 +366,7 @@
             name: "Titanium Adventure Watch",
             price: "159.99",
             description: "Hardened titanium case smartwatch built with advanced dual-band multi-system GPS sensor.",
-            imageUrl: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=500",
+            imageUrl: "images/products/product_29.jpg",
             category: "Smart Watches",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -369,7 +377,7 @@
             name: "Elegant Slim Band",
             price: "39.99",
             description: "Ultra slim fitness band monitor with continuous heart rate tracker and premium mesh metal strap.",
-            imageUrl: "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=500",
+            imageUrl: "images/products/product_30.jpg",
             category: "Smart Watches",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -382,7 +390,7 @@
             name: "9H Tempered Glass Guard",
             price: "9.99",
             description: "Ultra clear high-definition 9H tempered glass screen protector with case friendly edges.",
-            imageUrl: "https://images.unsplash.com/photo-1605152276897-4f618f831968?w=500",
+            imageUrl: "images/products/product_31.jpg",
             category: "Screen Protectors",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -393,7 +401,7 @@
             name: "Privacy Tempered Glass Shield",
             price: "12.99",
             description: "2-way anti-spy privacy screen shield preventing side angle visibility from observers.",
-            imageUrl: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500",
+            imageUrl: "images/products/product_32.jpg",
             category: "Screen Protectors",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -404,7 +412,7 @@
             name: "Matte Anti-Glare Protector",
             price: "10.99",
             description: "Fingerprint resistant matte texture screen guard reducing screen light reflections.",
-            imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500",
+            imageUrl: "images/products/product_33.jpg",
             category: "Screen Protectors",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -415,7 +423,7 @@
             name: "Camera Lens Protector Trio",
             price: "8.99",
             description: "Premium tempered glass camera ring overlays, keeping lens glass scratch free.",
-            imageUrl: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500",
+            imageUrl: "images/products/product_34.jpg",
             category: "Screen Protectors",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -426,7 +434,7 @@
             name: "Liquid UV Gel Screen Guard",
             price: "19.99",
             description: "Liquid dispersion tech tempered glass, curing with UV light, perfect fit for curved screen edges.",
-            imageUrl: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=500",
+            imageUrl: "images/products/product_35.jpg",
             category: "Screen Protectors",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -437,7 +445,7 @@
             name: "Flexible TPU Self-Healing Film",
             price: "11.99",
             description: "High-transparency flexible polyurethane film with self-healing tech for minor daily scratches.",
-            imageUrl: "https://images.unsplash.com/photo-1580927757835-43029a28e3b1?w=500",
+            imageUrl: "images/products/product_36.jpg",
             category: "Screen Protectors",
             amazonLink: "https://amazon.com",
             alibabaLink: "https://alibaba.com",
@@ -952,18 +960,28 @@
 
         html +=
           '<div class="product-card" data-aos="fade-up" data-aos-delay="' + (i * 100) + '" data-product-id="' + esc(p.id) + '" data-category="' + esc(p.category) + '">' +
-            '<div class="product-img-wrapper">' +
-              '<img src="' + esc(p.imageUrl || 'https://via.placeholder.com/400x300/0A0E17/00A8FF?text=📱') + '" ' +
-                   'alt="' + esc(p.name) + '" class="product-img" loading="lazy" ' +
-                   'onerror="this.src=\'https://via.placeholder.com/400x300/0A0E17/00A8FF?text=📱\'">' +
-              (p.category ? '<span class="product-badge">' + esc(p.category) + '</span>' : '') +
-            '</div>' +
-            '<div class="product-info">' +
-              '<span class="product-category">' + esc(p.category || 'Accessory') + '</span>' +
-              '<h3 class="product-name">' + esc(p.name) + '</h3>' +
-              '<div class="product-price">$' + esc(p.price) + '</div>' +
-              (p.description ? '<p class="product-desc">' + esc(p.description) + '</p>' : '') +
-              '<div class="affiliate-links">' + affiliateLinks + '</div>' +
+            '<div class="product-card-inner">' +
+              '<div class="product-card-front">' +
+                '<div class="product-img-wrapper">' +
+                  '<img src="' + esc(p.imageUrl || 'https://via.placeholder.com/400x300/0A0E17/00A8FF?text=📱') + '" ' +
+                       'alt="' + esc(p.name) + '" class="product-img" loading="lazy" ' +
+                       'onerror="this.src=\'https://via.placeholder.com/400x300/0A0E17/00A8FF?text=📱\'">' +
+                  (p.category ? '<span class="product-badge">' + esc(p.category) + '</span>' : '') +
+                '</div>' +
+                '<div class="product-info">' +
+                  '<span class="product-category">' + esc(p.category || 'Accessory') + '</span>' +
+                  '<h3 class="product-name">' + esc(p.name) + '</h3>' +
+                  '<div class="product-price">$' + esc(p.price) + '</div>' +
+                '</div>' +
+              '</div>' +
+              '<div class="product-card-back">' +
+                '<div class="product-info">' +
+                  '<h3 class="product-name" style="margin-top:0;">' + esc(p.name) + '</h3>' +
+                  '<div class="product-price" style="margin-bottom:1rem;">$' + esc(p.price) + '</div>' +
+                  (p.description ? '<p class="product-desc">' + esc(p.description) + '</p>' : '') +
+                  '<div class="affiliate-links">' + affiliateLinks + '</div>' +
+                '</div>' +
+              '</div>' +
             '</div>' +
           '</div>';
       }

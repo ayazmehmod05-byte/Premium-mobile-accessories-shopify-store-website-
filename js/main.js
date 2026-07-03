@@ -484,6 +484,98 @@
   }
 
   /* =================================================================
+     14. PREMIUM 3D CARD TILT ON HOVER
+     ================================================================= */
+  function initCardTilt() {
+    function setupTilt(card) {
+      card.addEventListener('mousemove', function (e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var centerX = rect.width / 2;
+        var centerY = rect.height / 2;
+        var rotateX = ((y - centerY) / centerY) * -6;
+        var rotateY = ((x - centerX) / centerX) * 6;
+
+        card.style.transform = 'translateY(-12px) perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+      });
+
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = '';
+      });
+    }
+
+    // Apply to all interactive cards
+    var selectors = '.product-card, .category-card, .stat-card, .deal-card, .testimonial-card, .contact-card';
+    var cards = document.querySelectorAll(selectors);
+    for (var i = 0; i < cards.length; i++) {
+      setupTilt(cards[i]);
+    }
+
+    // Also observe for dynamically added product cards
+    var grid = document.getElementById('products-grid');
+    if (grid) {
+      var observer = new MutationObserver(function () {
+        var newCards = grid.querySelectorAll('.product-card');
+        for (var j = 0; j < newCards.length; j++) {
+          if (!newCards[j].dataset.tiltReady) {
+            newCards[j].dataset.tiltReady = '1';
+            setupTilt(newCards[j]);
+          }
+        }
+      });
+      observer.observe(grid, { childList: true, subtree: true });
+    }
+  }
+
+  /* =================================================================
+     15. STAGGERED CARD ENTRANCE ANIMATIONS
+     ================================================================= */
+  function initStaggeredReveal() {
+    var sections = document.querySelectorAll('.products-grid, .categories-grid, .stats-grid, .deals-container');
+    
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var cards = entry.target.children;
+          for (var i = 0; i < cards.length; i++) {
+            (function (card, index) {
+              setTimeout(function () {
+                card.classList.add('card-revealed');
+              }, index * 120);
+            })(cards[i], i);
+          }
+        }
+      });
+    }, { threshold: 0.1 });
+
+    for (var i = 0; i < sections.length; i++) {
+      // Add initial hidden state to children
+      var children = sections[i].children;
+      for (var j = 0; j < children.length; j++) {
+        children[j].classList.add('card-hidden');
+      }
+      observer.observe(sections[i]);
+    }
+  }
+
+  /* =================================================================
+     16. MAGNETIC CURSOR GLOW EFFECT ON CARDS
+     ================================================================= */
+  function initMagneticGlow() {
+    document.addEventListener('mousemove', function (e) {
+      var cards = document.querySelectorAll('.product-card, .category-card');
+      for (var i = 0; i < cards.length; i++) {
+        var rect = cards[i].getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        cards[i].style.setProperty('--mouse-x', x + 'px');
+        cards[i].style.setProperty('--mouse-y', y + 'px');
+      }
+    });
+  }
+
+  /* =================================================================
      INITIALISE EVERYTHING ON DOMContentLoaded
      ================================================================= */
   document.addEventListener('DOMContentLoaded', function () {
@@ -503,5 +595,12 @@
     try { initSmoothScroll();  } catch (e) { console.warn('[SmoothScroll]',  e); }
     try { initDropdowns();     } catch (e) { console.warn('[Dropdowns]',     e); }
     try { initHoloPhone3D();   } catch (e) { console.warn('[HoloPhone3D]',   e); }
+
+    // Premium animations (init after slight delay so cards are rendered)
+    setTimeout(function () {
+      try { initCardTilt();          } catch (e) { console.warn('[CardTilt]',          e); }
+      try { initStaggeredReveal();   } catch (e) { console.warn('[StaggeredReveal]',   e); }
+      try { initMagneticGlow();      } catch (e) { console.warn('[MagneticGlow]',      e); }
+    }, 600);
   });
 })();
