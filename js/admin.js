@@ -958,8 +958,24 @@
           affiliateLinks += '<a href="' + esc(p.aliexpressLink) + '" target="_blank" rel="noopener" class="affiliate-btn aliexpress"><i class="fas fa-shopping-cart"></i> AliExpress</a>';
         }
 
+        var r = Math.floor(i / 3);
+        var pos = i % 3;
+        var cardsInRow = Math.min(3, products.length - (r * 3));
+        
+        var aosAnimation = 'fade-up';
+        if (cardsInRow === 3) {
+          if (pos === 0) aosAnimation = 'fade-right';
+          else if (pos === 1) aosAnimation = 'fade-up';
+          else if (pos === 2) aosAnimation = 'fade-left';
+        } else if (cardsInRow === 2) {
+          if (pos === 0) aosAnimation = 'fade-right';
+          else if (pos === 1) aosAnimation = 'fade-left';
+        } else if (cardsInRow === 1) {
+          aosAnimation = 'fade-up';
+        }
+
         html +=
-          '<div class="product-card" data-aos="fade-up" data-aos-delay="' + (i * 100) + '" data-product-id="' + esc(p.id) + '" data-category="' + esc(p.category) + '">' +
+          '<div class="product-card" data-aos="' + aosAnimation + '" data-aos-delay="' + ((i % 3) * 100) + '" data-product-id="' + esc(p.id) + '" data-category="' + esc(p.category) + '">' +
             '<div class="product-card-inner">' +
               '<div class="product-card-front">' +
                 '<div class="product-img-wrapper">' +
@@ -988,9 +1004,8 @@
 
       grid.innerHTML = html;
 
-      // Refresh AOS so new dynamically-added elements animate
-      if (typeof AOS !== 'undefined') {
-        AOS.refresh();
+      if (typeof window.initScrollAnimations === 'function') {
+        window.initScrollAnimations();
       }
     },
 
