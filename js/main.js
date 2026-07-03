@@ -505,24 +505,18 @@
       });
     }
 
-    // Apply to all interactive cards
-    var selectors = '.product-card, .category-card, .stat-card, .deal-card, .testimonial-card, .contact-card';
+    // Apply to all interactive cards (except product cards which have fan out effect)
+    var selectors = '.category-card, .stat-card, .deal-card, .testimonial-card, .contact-card';
     var cards = document.querySelectorAll(selectors);
     for (var i = 0; i < cards.length; i++) {
       setupTilt(cards[i]);
     }
 
-    // Also observe for dynamically added product cards
+    // Also observe for dynamically added cards if needed (skipped for product-cards)
     var grid = document.getElementById('products-grid');
     if (grid) {
       var observer = new MutationObserver(function () {
-        var newCards = grid.querySelectorAll('.product-card');
-        for (var j = 0; j < newCards.length; j++) {
-          if (!newCards[j].dataset.tiltReady) {
-            newCards[j].dataset.tiltReady = '1';
-            setupTilt(newCards[j]);
-          }
-        }
+        // intentionally empty since product cards don't use tilt anymore
       });
       observer.observe(grid, { childList: true, subtree: true });
     }
@@ -577,6 +571,38 @@
 
 
   /* =================================================================
+     17. CARD FAN INTERACTION (Persistent Open State)
+     ================================================================= */
+  function initCardFanInteraction() {
+    // Open the fan on hover (automatically) or click
+    // Close it only when another fan container is interacted with
+    document.addEventListener('mouseover', function(e) {
+      var fanContainer = e.target.closest('.card-fan-container');
+      if (fanContainer) {
+        document.querySelectorAll('.card-fan-container').forEach(function(c) {
+          if (c !== fanContainer) c.classList.remove('is-open');
+        });
+        fanContainer.classList.add('is-open');
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      var fanContainer = e.target.closest('.card-fan-container');
+      if (fanContainer) {
+        document.querySelectorAll('.card-fan-container').forEach(function(c) {
+          if (c !== fanContainer) c.classList.remove('is-open');
+        });
+        fanContainer.classList.add('is-open');
+      } else {
+        // Clicking completely outside closes all of them
+        document.querySelectorAll('.card-fan-container').forEach(function(c) {
+          c.classList.remove('is-open');
+        });
+      }
+    });
+  }
+
+  /* =================================================================
      INITIALISE EVERYTHING ON DOMContentLoaded
      ================================================================= */
   document.addEventListener('DOMContentLoaded', function () {
@@ -596,6 +622,7 @@
     try { initSmoothScroll();  } catch (e) { console.warn('[SmoothScroll]',  e); }
     try { initDropdowns();     } catch (e) { console.warn('[Dropdowns]',     e); }
     try { initHoloPhone3D();   } catch (e) { console.warn('[HoloPhone3D]',   e); }
+    try { initCardFanInteraction(); } catch (e) { console.warn('[CardFan]',  e); }
 
     // Premium animations (init after slight delay so cards are rendered)
     setTimeout(function () {

@@ -944,62 +944,49 @@
       }
 
       var html = '';
-      for (var i = 0; i < products.length; i++) {
-        var p = products[i];
+      for (var i = 0; i < products.length; i += 3) {
+        html += '<div class="card-fan-container" data-aos="fade-up" data-aos-duration="1000">';
 
-        var affiliateLinks = '';
-        if (p.amazonLink) {
-          affiliateLinks += '<a href="' + esc(p.amazonLink) + '" target="_blank" rel="noopener" class="affiliate-btn amazon"><i class="fab fa-amazon"></i> Amazon</a>';
-        }
-        if (p.alibabaLink) {
-          affiliateLinks += '<a href="' + esc(p.alibabaLink) + '" target="_blank" rel="noopener" class="affiliate-btn alibaba"><i class="fas fa-shopping-bag"></i> Alibaba</a>';
-        }
-        if (p.aliexpressLink) {
-          affiliateLinks += '<a href="' + esc(p.aliexpressLink) + '" target="_blank" rel="noopener" class="affiliate-btn aliexpress"><i class="fas fa-shopping-cart"></i> AliExpress</a>';
-        }
+        for (var j = 0; j < 3; j++) {
+          if (i + j >= products.length) break;
+          var p = products[i + j];
 
-        var r = Math.floor(i / 3);
-        var pos = i % 3;
-        var cardsInRow = Math.min(3, products.length - (r * 3));
-        
-        var aosAnimation = 'fade-up';
-        if (cardsInRow === 3) {
-          if (pos === 0) aosAnimation = 'fade-right';
-          else if (pos === 1) aosAnimation = 'fade-up';
-          else if (pos === 2) aosAnimation = 'fade-left';
-        } else if (cardsInRow === 2) {
-          if (pos === 0) aosAnimation = 'fade-right';
-          else if (pos === 1) aosAnimation = 'fade-left';
-        } else if (cardsInRow === 1) {
-          aosAnimation = 'fade-up';
-        }
+          var affiliateLinks = '';
+          if (p.amazonLink) {
+            affiliateLinks += '<a href="' + esc(p.amazonLink) + '" target="_blank" rel="noopener" class="affiliate-btn amazon"><i class="fab fa-amazon"></i> Amazon</a>';
+          }
+          if (p.alibabaLink) {
+            affiliateLinks += '<a href="' + esc(p.alibabaLink) + '" target="_blank" rel="noopener" class="affiliate-btn alibaba"><i class="fas fa-shopping-bag"></i> Alibaba</a>';
+          }
+          if (p.aliexpressLink) {
+            affiliateLinks += '<a href="' + esc(p.aliexpressLink) + '" target="_blank" rel="noopener" class="affiliate-btn aliexpress"><i class="fas fa-shopping-cart"></i> AliExpress</a>';
+          }
 
-        html +=
-          '<div class="product-card" data-aos="' + aosAnimation + '" data-aos-delay="' + ((i % 3) * 100) + '" data-product-id="' + esc(p.id) + '" data-category="' + esc(p.category) + '">' +
-            '<div class="product-card-inner">' +
-              '<div class="product-card-front">' +
-                '<div class="product-img-wrapper">' +
-                  '<img src="' + esc(p.imageUrl || 'https://via.placeholder.com/400x300/0A0E17/00A8FF?text=📱') + '" ' +
-                       'alt="' + esc(p.name) + '" class="product-img" loading="lazy" ' +
-                       'onerror="this.src=\'https://via.placeholder.com/400x300/0A0E17/00A8FF?text=📱\'">' +
-                  (p.category ? '<span class="product-badge">' + esc(p.category) + '</span>' : '') +
-                '</div>' +
-                '<div class="product-info">' +
-                  '<span class="product-category">' + esc(p.category || 'Accessory') + '</span>' +
-                  '<h3 class="product-name">' + esc(p.name) + '</h3>' +
-                  '<div class="product-price">$' + esc(p.price) + '</div>' +
-                '</div>' +
+          var posClass = '';
+          if (j === 0) posClass = 'card-left';
+          else if (j === 1) posClass = 'card-center';
+          else if (j === 2) posClass = 'card-right';
+
+          html +=
+            '<div class="product-card ' + posClass + '" data-product-id="' + esc(p.id) + '" data-category="' + esc(p.category) + '">' +
+              '<div class="product-img-wrapper">' +
+                '<img src="' + esc(p.imageUrl || 'https://via.placeholder.com/400x300/0A0E17/00A8FF?text=📱') + '" ' +
+                     'alt="' + esc(p.name) + '" class="product-img" loading="lazy" ' +
+                     'onerror="this.src=\'https://via.placeholder.com/400x300/0A0E17/00A8FF?text=📱\'">' +
+                (p.category ? '<span class="product-badge">' + esc(p.category) + '</span>' : '') +
               '</div>' +
-              '<div class="product-card-back">' +
-                '<div class="product-info">' +
-                  '<h3 class="product-name" style="margin-top:0;">' + esc(p.name) + '</h3>' +
-                  '<div class="product-price" style="margin-bottom:1rem;">$' + esc(p.price) + '</div>' +
+              '<div class="product-info">' +
+                '<span class="product-category">' + esc(p.category || 'Accessory') + '</span>' +
+                '<h3 class="product-name">' + esc(p.name) + '</h3>' +
+                '<div class="product-price">$' + esc(p.price) + '</div>' +
+                '<div class="hover-reveal-content">' +
                   (p.description ? '<p class="product-desc">' + esc(p.description) + '</p>' : '') +
                   '<div class="affiliate-links">' + affiliateLinks + '</div>' +
                 '</div>' +
               '</div>' +
-            '</div>' +
-          '</div>';
+            '</div>';
+        }
+        html += '</div>';
       }
 
       grid.innerHTML = html;
