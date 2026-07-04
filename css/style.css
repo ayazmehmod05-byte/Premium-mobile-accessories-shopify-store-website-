@@ -409,7 +409,7 @@ nav#navbar,
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: 2px;
-  color: var(--text-primary);
+  color: #000000;
   text-transform: uppercase;
 }
 
@@ -426,8 +426,8 @@ nav#navbar,
 
 .nav-link {
   text-decoration: none;
-  color: var(--text-primary);
-  font-weight: 500;
+  color: #000000;
+  font-weight: 700;
   font-size: 0.85rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -466,13 +466,17 @@ nav#navbar,
   align-items: center;
   gap: 0.4rem;
   text-decoration: none;
-  color: var(--text-primary);
-  font-weight: 500;
+  color: #000000;
+  font-weight: 700;
   font-size: 0.85rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
   transition: color 0.3s ease;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: inherit;
 }
 
 .nav-dropdown-trigger svg {
@@ -1025,8 +1029,16 @@ nav#navbar,
     position: relative;
     width: 100%;
     max-width: 400px;
-    height: 450px;
+    height: auto;
+    min-height: 550px;
     transform: none !important;
+  }
+  
+  /* Always show content on mobile */
+  .hover-reveal-content {
+    max-height: 300px;
+    opacity: 1;
+    margin-top: 1rem;
   }
 }
 
